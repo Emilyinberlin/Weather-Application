@@ -23,27 +23,22 @@ def get_weather():
         # Convert temperature to Celsius which rounds to the nearest integer
         temperature_celsius = round(temperature_kelvin - 273.15)
 
-        temp_field.delete(0, END)
+       
         temp_field.insert(0, f"{temperature_celsius} °C")
 
         pressure = data['main']['pressure']
-        pressure_field.delete(0, END)
         pressure_field.insert(0, str(pressure))
 
         humidity = data['main']['humidity']
-        humid_field.delete(0, END)
         humid_field.insert(0, str(humidity))
 
         wind_speed = data['wind']['speed']
-        wind_field.delete(0, END)
         wind_field.insert(0, str(wind_speed))
 
         cloudiness = data['clouds']['all']
-        cloud_field.delete(0, END)
         cloud_field.insert(0, str(cloudiness))
 
         description = data['weather'][0]['description']
-        desc_field.delete(0, END)
         desc_field.insert(0, description)
         
         time_label.config(text=f"Last updated: {datetime.now().strftime('%H:%M:%S')}")

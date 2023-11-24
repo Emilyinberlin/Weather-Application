@@ -18,51 +18,50 @@ def get_weather():
         data = response.json()
 
         # Extract relevant information from the API response
-        temperature = data['main']['temp']
-        pressure = data['main']['pressure']
-        humidity = data['main']['humidity']
-        wind_speed = data['wind']['speed']
-        cloudiness = data['clouds']['all']
-        description = data['weather'][0]['description']
+        temperature_kelvin = data['main']['temp']
 
-        # Update the entry fields with the retrieved information
+        # Convert temperature to Celsius which rounds to the nearest integer
+        temperature_celsius = round(temperature_kelvin - 273.15)
+
         temp_field.delete(0, END)
-        temp_field.insert(0, str(temperature))
+        temp_field.insert(0, f"{temperature_celsius} °C")
 
+        pressure = data['main']['pressure']
         pressure_field.delete(0, END)
         pressure_field.insert(0, str(pressure))
 
+        humidity = data['main']['humidity']
         humid_field.delete(0, END)
         humid_field.insert(0, str(humidity))
 
+        wind_speed = data['wind']['speed']
         wind_field.delete(0, END)
         wind_field.insert(0, str(wind_speed))
 
+        cloudiness = data['clouds']['all']
         cloud_field.delete(0, END)
         cloud_field.insert(0, str(cloudiness))
 
+        description = data['weather'][0]['description']
         desc_field.delete(0, END)
         desc_field.insert(0, description)
-
-        # Update the time label
+        
         time_label.config(text=f"Last updated: {datetime.now().strftime('%H:%M:%S')}")
 
     except Exception as e:
         mb.showerror("Error", f"An error occurred: {str(e)}")
 
-def get_forecast():
-    # Implement the logic to get weather forecast data
-    pass
 
 def reset():
     city_input.delete(0, END)
-    time_label.config(text='')
     temp_field.delete(0, END)
     pressure_field.delete(0, END)
     humid_field.delete(0, END)
     wind_field.delete(0, END)
     cloud_field.delete(0, END)
     desc_field.delete(0, END)
+   
+  
 
 root = Tk()
 root.title("Emily's Weather Application")
@@ -74,7 +73,7 @@ label1 = Label(root, text='Enter the city name : ', font=("bold", 12), bg="Pink"
 city_input = Entry(root, width=24, fg='Black', font=12, relief=GROOVE)
 time_label = Label(root, text='', bg='Brown', font=('bold', 14), fg='yellow')
 btn_submit = Button(root, text='Get Weather', width=10, font=12, bg='lime green', command=get_weather)
-btn_forecast = Button(root, text='Weather Forecast', width=14, font=12, bg='White', command=get_forecast)
+btn_forecast = Button(root, text='Weather Forecast', width=14, font=12, bg='White', command=get_weather)  # Change here
 btn_reset = Button(root, text="Reset", font=12, bg="lime green", command=reset)
 
 label2 = Label(root, text="Temperature :", font=('bold', 12), bg=("Light Blue"))
